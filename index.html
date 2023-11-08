@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="img/hello-icon-152.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="white" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Contoh PWA" />
+    <meta name="msapplication-TileImage" content="img/hello-icon-144.png" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+  </head>
+  <body>
+    <div class="cv">
+      <div class="header">
+        <h1>PROFIL SAYA</h1>
+        <img src="/img/pis.jpeg" alt="Foto Anda" />
+      </div>
+      <div class="info">
+        <table>
+          <tr>
+            <td>Nama</td>
+            <td>: Muhammad Wazid Khusni</td>
+          </tr>
+          <tr>
+            <td>NIM</td>
+            <td>: 21195024</td>
+          </tr>
+          <tr>
+            <td>Kelas</td>
+            <td>: Teknik Informatika Pagi</td>
+          </tr>
+          <tr>
+            <td>Semester</td>
+            <td>: 5</td>
+          </tr>
+          <tr>
+            <td>Mata Kuliah</td>
+            <td>: Pemrograman Perangkat Bergerak</td>
+          </tr>
+          <tr>
+            <td>Tujuan</td>
+            <td>
+              : Tujuan belajar programming PWA agar bisa membuat aplikasi yang
+              dapat memenuhi kebutuhan pengguna dan memberikan pengalaman
+              pengguna yang optimal.
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h1>Formulir Komentar</h1>
+      <form id="komentarForm">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" required /><br />
+
+        <label for="komentar">Komentar:</label>
+        <textarea id="komentar" required></textarea><br />
+
+        <button type="submit">Kirim Komentar</button>
+      </form>
+
+      <h2>Komentar Terakhir:</h2>
+      <ul id="daftarKomentar"></ul>
+    </div>
+    <script src="index.js"></script>
+    <script>
+      window.onload = () => {
+        "use strict";
+
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("./sw.js");
+        }
+      };
+
+      // Minta izin notifikasi
+      if ("Notification" in window) {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            showNotification(
+              "Selamat datang!",
+              "Terima kasih telah menggunakan PWA ini."
+            );
+            alert("Terima kasih sudah accept");
+          } else if (permission === "denied") {
+            // Izin diblokir
+            alert("maaf yah, anda diblokir");
+          }
+        });
+      }
+
+      // Fungsi untuk menampilkan notifikasi
+      function showNotification(title, message) {
+        if ("Notification" in window && Notification.permission === "granted") {
+          navigator.serviceWorker.ready.then(function (registration) {
+            registration.showNotification(title, {
+              body: message,
+            });
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
